@@ -89,12 +89,36 @@ attr_accessor :name, :species, :bounty_value, :danger_level
     end
   end
 
-  def Bounty.remove_duplicates(array)
-    
-    for obj in array
-      obj.delete_from_db()
+  def Bounty.remove_duplicates(array_of_objects)
+    originals = [] # names
+    for bounty_object in array_of_objects
+      if originals.include?(bounty_object.name) == false
+        originals << bounty_object.name
+      else
+        bounty_object.delete_from_db()
+      end
     end
+    return originals
   end
+
+  def Bounty.find_by_name(name)
+    db = PG.connect( { dbname: 'bounty_hunter', host: 'localhost' } )
+
+    sql = "
+    SELECT * FROM bounties
+      WHERE name = $1;
+    "
+    value = [name]
+    db.prepare('find by name', sql)
+    found = db.exec_prepared('find by name', value)
+    db.close()
+    return found
+  end
+
+
+  # Implement a find_by_name method that returns one instance of your class when a name is passed in, or nil if no instance is found. Note: this will probably be another class method ClassName.find_by_name(name) (do you have to use a map method if it's a single result?)
+  # Implement a second find method that returns one instance of your class when an id is passed in.
+
 
 
 end
