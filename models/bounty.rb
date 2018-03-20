@@ -139,7 +139,7 @@ attr_accessor :name, :species, :bounty_value, :danger_level
     return Bounty.new(found_id[0])
 
   end
-  # Implement a second find method that returns one instance of your class when an id is passed in.
+
 
 
 
