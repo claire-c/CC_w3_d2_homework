@@ -19,34 +19,82 @@ attr_accessor :name, :species, :bounty_value, :danger_level
   def save_to_db()
     db = PG.connect( { dbname: 'bounty_hunter', host: 'localhost' } )
 
-    sql = "
+    sql = '
     INSERT INTO bounties
       (name, species, bounty_value, danger_level)
       VALUES
       ($1, $2, $3, $4);
-    "
+    '
 
     values = [@name, @species, @bounty_value, @danger_level]
 
-    db.prepare("save", sql)
-    db.exec_prepared("save", values)
+    db.prepare('save', sql)
+    db.exec_prepared('save', values)
+    db.close()
 
   end
 
-  def update()
+  def Bounty.get_all_bounties_from_db()
+    db = PG.connect( { dbname: 'bounty_hunter', host: 'localhost' } )
+
+    sql = '
+    SELECT * FROM bounties;
+    '
+
+    db.prepare('get all bounties', sql)
+    all_bounties = db.exec_prepared('get all bounties')
+    db.close()
+
+    all_bounties_array = all_bounties.map { |bounty| Bounty.new(bounty) }
+
 
   end
 
-  def delete()
+  def update_to_db()
+    db = PG.connect( { dbname: 'bounty_hunter', host: 'localhost' } )
 
+    sql = '
+    UPDATE bounties
+      SET (name, species, bounty_value, danger_level) = ($1, $2, $3, $4)
+      WHERE id = $5;
+    '
+
+    values = [@name, @species, @bounty_value, @danger_level, @id]
+
+    db.prepare('update', sql)
+    db.exec_prepared('update', values)
+    db.close()
+
+  end
+
+  def delete_from_db()
+    db = PG.connect( { dbname: 'bounty_hunter', host: 'localhost' } )
+
+    sql = '
+    DELETE FROM bounties
+      WHERE id = $1;
+    '
+
+    values = [@id]
+
+    db.prepare('delete', sql)
+    db.exec_prepared('delete', values)
+    db.close()
+
+  end
+
+  def Bounty.delete_many( array_of_objects)
+    for obj in array_of_objects
+      obj.delete_from_db()
+    end
+  end
+
+  def Bounty.remove_duplicates(array)
+    
+    for obj in array
+      obj.delete_from_db()
+    end
   end
 
 
 end
-
-
-
-# Create a Ruby file for your Bounty class - Bounty
-# Write your class definition in the file - initialize, attr_readers, instance variables
-
-# Implement save, update and delete methods on your class
