@@ -9,9 +9,9 @@ second_target = { 'name' => 'Willy', 'species' => 'killer whale', 'bounty_value'
 
 
 my_other_bounty = Bounty.new(second_target)
-
-my_bounty.save_to_db()
-my_other_bounty.save_to_db()
+#
+# my_bounty.save_to_db()
+# my_other_bounty.save_to_db()
 #
 all_bounties = Bounty.get_all_bounties_from_db()
 # p all_bounties.length
@@ -27,16 +27,18 @@ all_bounties = Bounty.get_all_bounties_from_db()
 # all_bounties = Bounty.get_all_bounties_from_db()
 # p all_bounties.length
 #
-#Bounty.remove_duplicates(all_bounties)
+Bounty.remove_duplicates(all_bounties)
 #
 # all_bounties = Bounty.get_all_bounties_from_db()
 # p all_bounties
 #p Bounty.get_all_bounties_from_db()
 
-name = Bounty.find_by_name("Boba Fet")
-p name
+# name = Bounty.find_by_name("Boba Fett")
+# p name
 
 # Bounty.remove_duplicates(all_bounties)
 #
 # all_bounties = Bounty.get_all_bounties_from_db()
 # p all_bounties
+
+p Bounty.find_by_id_only(2)

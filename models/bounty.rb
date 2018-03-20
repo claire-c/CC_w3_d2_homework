@@ -124,7 +124,21 @@ attr_accessor :name, :species, :bounty_value, :danger_level
   end
 
 
-  # Implement a find_by_name method that returns one instance of your class when a name is passed in, or nil if no instance is found. Note: this will probably be another class method ClassName.find_by_name(name) (do you have to use a map method if it's a single result?)
+  def Bounty.find_by_id_only(id)
+    db = PG.connect( { dbname: 'bounty_hunter', host: 'localhost' } )
+
+    sql = "
+    SELECT * FROM bounties
+      WHERE id = $1;
+    "
+    value = [id]
+    db.prepare('find by id', sql)
+    found_id = db.exec_prepared('find by id', value)
+    db.close()
+
+    return Bounty.new(found_id[0])
+
+  end
   # Implement a second find method that returns one instance of your class when an id is passed in.
 
 
