@@ -13,7 +13,7 @@ INSERT INTO bounties (name, species, bounty_value, danger_level)
 INSERT INTO bounties (name, species, bounty_value, danger_level)
   VALUES ('Seb', 'Surferman', 10000, 'medium');
 INSERT INTO bounties (name, species, bounty_value, danger_level)
-  VALUES ('Simon', 'Phycho Hose Beast', 500000, 'red alert');
+  VALUES ('Simon', 'Psycho Hose Beast', 500000, 'red alert');
 INSERT INTO bounties (name, species, bounty_value, danger_level)
   VALUES ('Mike', 'Climber Creature', 100, 'low');
 INSERT INTO bounties (name, species, bounty_value, danger_level)

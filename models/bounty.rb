@@ -44,7 +44,6 @@ attr_accessor :name, :species, :bounty_value, :danger_level
     db.prepare('get all bounties', sql)
     all_bounties = db.exec_prepared('get all bounties')
     db.close()
-
     all_bounties_array = all_bounties.map { |bounty| Bounty.new(bounty) }
 
 
@@ -106,13 +105,22 @@ attr_accessor :name, :species, :bounty_value, :danger_level
 
     sql = "
     SELECT * FROM bounties
-      WHERE name = $1;
+      WHERE name = $1
+      LIMIT 1;
     "
     value = [name]
     db.prepare('find by name', sql)
     found = db.exec_prepared('find by name', value)
     db.close()
-    return found
+
+    instance = found.map { |bounty| Bounty.new(bounty) }
+
+    if instance.empty? == true
+      return nil
+    else
+      return instance[0]
+    end
+
   end
 
 
